@@ -7,13 +7,11 @@ public Board: nat*nat ==> Board
 Board(n,n1) == (
 dcl i: nat := 0;
 dcl j: nat;
-while i<= n do (
+while i< n do (
 j:=0;
-while j <n1 do (matrix:=[['E']]^matrix;
-j:=j+1;
+while j <n1 do (matrix(i):=[['E']]^matrix(i));
 );
 i:=i+1;
-);
 );
 --post matrix(i(j)) = {} ;
 
