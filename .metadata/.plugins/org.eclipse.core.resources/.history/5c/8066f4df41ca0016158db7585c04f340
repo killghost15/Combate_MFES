@@ -1,0 +1,23 @@
+class Board
+instance variables
+private matrix : seq of seq of char:= [];
+
+operations
+public Board: nat*nat ==> Board
+Board(n,n1) == (
+i: nat := 0;
+j: nat;
+while i< n do (
+j:=0;
+while j <n1 do (matrix:=['E']^matrix(i))
+);
+i=i+1;
+)
+post matrix(i(j)) = {} ;
+
+--public top: () ==> int
+--top() == return hd contents
+--pre contents <> []
+--post RESULT = hd contents;
+
+end Board

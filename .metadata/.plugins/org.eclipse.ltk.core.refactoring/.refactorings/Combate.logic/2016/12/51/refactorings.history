@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;Stack/Boards.vdmpp&apos; to &apos;Board.vdmpp&apos;" description="Rename resource &apos;Boards.vdmpp&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="Boards.vdmpp" name="Board.vdmpp" stamp="1482626381910" updateReferences="true"/>
+</session>

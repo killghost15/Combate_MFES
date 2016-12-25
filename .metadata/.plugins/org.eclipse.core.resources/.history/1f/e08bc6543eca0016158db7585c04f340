@@ -1,0 +1,30 @@
+class Board
+instance variables
+private matrix : seq of seq of int:= [];
+
+operations
+public Board: nat*nat ==> Board
+Board(n,n1) == for(int i:=0; i< n;i++){
+for(int j:=0;j<n1;j++){
+martrix=[]^matrix(j);
+}
+}
+post matrix(i(j)) = {} ;
+
+public push: int ==> ()
+push(x) == contents := [x] ^ contents
+pre len contents < capacity
+post contents = [x] ^ contents~;
+
+public pop: () ==> ()
+pop() == contents := tl contents
+pre contents <> []
+post contents = tl contents~;
+
+
+public top: () ==> int
+top() == return hd contents
+pre contents <> []
+post RESULT = hd contents;
+
+end Board
