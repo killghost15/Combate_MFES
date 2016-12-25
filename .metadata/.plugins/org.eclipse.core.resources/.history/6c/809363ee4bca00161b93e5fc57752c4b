@@ -9,11 +9,11 @@ dcl i: nat := 0;
 dcl j: nat;
 while i< n do (
 j:=0;
-while j <n1 do (matrix(i):=[['E']]^matrix(i));
+while j <n1 do (matrix:=['E']^matrix(i));
 );
 i:=i+1;
 )
---post matrix(i(j)) = {} ;
+post matrix(i(j)) = {} ;
 
 --public top: () ==> int
 --top() == return hd contents
