@@ -1,0 +1,26 @@
+class Player
+types
+values
+	public TOTAL_PIECES : nat = 40;
+instance variables
+	private player : nat := 0;
+
+  private totalPieces : nat := TOTAL_PIECES;
+  private unplayedPieces : nat := TOTAL_PIECES;
+  
+	private pieces : seq of Piece := [];
+	
+	inv len pieces <= TOTAL_PIECES;
+  
+  inv player = 0 or player = 1;
+operations
+		public Player : nat ==> Player
+			Player(pl) ==
+			(
+				player := pl;
+			)
+			pre pl = 0 or pl = 1;
+			
+functions
+traces
+end Player
