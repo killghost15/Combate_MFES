@@ -7,10 +7,7 @@ import org.overture.codegen.runtime.*;
 public class Piece {
   private Object PieceType;
   private Object PieceColor;
-<<<<<<< HEAD
-=======
   private Position position;
->>>>>>> d04c4861d7f32f4bbdecdba8d75066736c5d4379
   private Boolean onBoard = false;
   private Boolean cannotMove;
   private Boolean unlimitedRange;
@@ -19,17 +16,6 @@ public class Piece {
 
     PieceType = type;
     PieceColor = color;
-<<<<<<< HEAD
-    Boolean orResult_2 = false;
-
-    if (Utils.equals(PieceType, combate.generated.quotes.BOMBQuote.getInstance())) {
-      orResult_2 = true;
-    } else {
-      orResult_2 = Utils.equals(PieceType, combate.generated.quotes.FLAGQuote.getInstance());
-    }
-
-    cannotMove = orResult_2;
-=======
     position = new Position(-1L, -1L);
     Boolean orResult_8 = false;
 
@@ -40,7 +26,6 @@ public class Piece {
     }
 
     cannotMove = orResult_8;
->>>>>>> d04c4861d7f32f4bbdecdba8d75066736c5d4379
 
     unlimitedRange = Utils.equals(PieceType, combate.generated.quotes.SCOUTQuote.getInstance());
     this.placePiece();
@@ -85,11 +70,8 @@ public class Piece {
         + Utils.toString(PieceType)
         + ", PieceColor := "
         + Utils.toString(PieceColor)
-<<<<<<< HEAD
-=======
         + ", position := "
         + Utils.toString(position)
->>>>>>> d04c4861d7f32f4bbdecdba8d75066736c5d4379
         + ", onBoard := "
         + Utils.toString(onBoard)
         + ", cannotMove := "
@@ -98,8 +80,6 @@ public class Piece {
         + Utils.toString(unlimitedRange)
         + "}";
   }
-<<<<<<< HEAD
-=======
 
   public static class Position implements Record {
     public Number x;
@@ -137,5 +117,4 @@ public class Piece {
       return "mk_Piece`Position" + Utils.formatFields(x, y);
     }
   }
->>>>>>> d04c4861d7f32f4bbdecdba8d75066736c5d4379
 }

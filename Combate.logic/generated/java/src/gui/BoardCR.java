@@ -20,9 +20,10 @@ public class BoardCR implements ActionListener{
     private final JLabel message = new JLabel(
             "Combate!");
     private static final String COLS = "ABCDEFGHIJ";
+    private GamePlay  game = new GamePlay();
     
 
-    BoardCR() {
+    public BoardCR() {
         initializeGui();
     }
 

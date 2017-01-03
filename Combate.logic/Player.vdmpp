@@ -8,7 +8,6 @@ instance variables
   private totalPieces : nat := TOTAL_PIECES;
   private unplayedPieces : nat := TOTAL_PIECES;
   
-
 	private pieces : set of Piece := {};
 	
 	inv card pieces <= TOTAL_PIECES;
@@ -21,7 +20,7 @@ operations
 				player := pl;
 			)
 			pre pl = 0 or pl = 1;
-
+			
 			public addPiece : Piece ==> ()
 			addPiece(p) ==
 			(

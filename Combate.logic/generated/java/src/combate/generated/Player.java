@@ -9,7 +9,6 @@ public class Player {
   private Number player = 0L;
   private Number totalPieces = Player.TOTAL_PIECES;
   private Number unplayedPieces = Player.TOTAL_PIECES;
-
   private VDMSet pieces = SetUtil.set();
 
   public void cg_init_Player_1(final Number pl) {
@@ -21,7 +20,6 @@ public class Player {
 
     cg_init_Player_1(pl);
   }
-
 
   public void addPiece(final Piece p) {
 
