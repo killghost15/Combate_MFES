@@ -1,25 +1,175 @@
 class Board
+
+types 
+		public Position:: x:nat y:nat;
+
+values 
+		private max_coord : nat = 9 --Board is 10*10
+
 instance variables
-private matrix : seq of seq of char:= [];
+	private board : map Position to Cell := {|->};
 
 operations
-public Board: nat*nat ==> Board
-Board(n,n1) == (
-dcl i: nat := 0;
-dcl j: nat;
-while i<= n do (
-j:=0;
-while j <n1 do (matrix:=[['E']]^matrix;
-j:=j+1;
-);
-i:=i+1;
-);
-);
---post matrix(i(j)) = {} ;
+-- Creates the board
+public Board : () ==> Board 
+		Board() == 
+			(
+				for i=0 to max_coord by 1 do
+					(
+						for j=0 to max_coord by 1 do
+							(
+								board := board ++ {mk_Position(i,j)|-> new Cell(i,j)};
+							)
+					)
+			);
+			
+	--Acording to given max_coord, checks if given position is valid		
+  public pure validCoords : Position ==> bool
+  validCoords(position) == 
+  (
+  	return position.x <= max_coord and position.y <= max_coord;
+  );
+  
+  --Checks if a given position is occupied
+   public pure freeSpace : Position ==> bool 
+  freeSpace(position) == 
+  (
+  	return not board(position).isOccupied();
+  )
+  pre validCoords(position);
+  
+  -- Returns the piece that is in a given position
+  public pure hasPiece : Position ==> bool 
+  hasPiece(position) == return board(position).getPiece() <> nil;
+  
+   public placePiece : nat*nat*Piece`PType*Piece`PColor ==> () --
+  placePiece(i,j,type,color) == 
+  (
+  	dcl piece : Piece := new Piece(type,color);
+  	board(mk_Position(i,j)).setPiece(piece);
+  )
+  pre freeSpace(mk_Position(i,j)) and colorRegion(mk_Position(i,j),color) and limitPieces(type,color)
+  post hasPiece(mk_Position(i,j));
+  
+  
+  
+  -- makes the moves
+  public makeMove : Position*Position*Piece`PColor ==> bool
+  makeMove(origin,destination,color) == 
+  (
+  	dcl pieceOrigin : [Piece] := board(origin).getPiece();
+  	dcl pieceDestination : [Piece] := board(destination).getPiece();
+  	
+  	
+  	if movePossible(origin,destination,pieceOrigin.hasUnlimitedRange())
+  	then (
+	  	if pieceDestination = nil -- Piece can be moved, anything there
+	  		then (
+	  				board(origin).removePiece();
+	  				board(destination).setPiece(pieceOrigin);
+	  				return true;
+	  			)
+	  			else (
+	  				if  pieceOrigin.getColor() = pieceDestination.getColor() 
+	  					then return false
+	  				else (
+		  				if pieceOrigin.getType() = pieceDestination.getType()
+		  					then (
+		  						board(origin).removePiece();
+		  						board(destination).removePiece();
+		  						return true;
+		  					)
+		  					else (
+		  					 if getInteraction(pieceOrigin,pieceDestination)
+				  				then (
+			  						board(origin).removePiece();
+			  						board(destination).setPiece(pieceOrigin);
+			  						return true;
+			  					)
+			  					else (
+			  						board(origin).removePiece();
+			  						return true;
+			  					)
+			  				)
+		  			)
+		  		)
+  	);
+  	return false;
+  )pre validCoords(origin) and validCoords(destination) and hasPiece(origin) and board(origin).getPiece().getColor() = color and board(origin).getPiece().canMove()
+  post not hasPiece(origin);
+  
+  
+  	--Returns true if 1st (origin) piece stronger, false otherwise
+  public pure getInteraction : Piece * Piece ==> bool
+	getInteraction(origin,destination) == (
+		dcl originType : Piece`PType := origin.getType();
+		dcl destinationType : Piece`PType := destination.getType();
+		cases originType :
+		<MINER> -> return destinationType = <BOMB>,
+		<SPY> -> return destinationType = <MARSHALL>,
+		others -> strongerPiece(originType,destinationType)
+		end
+	);
+	
+	public pure limitPieces : Piece`PType*Piece`PColor ==> bool
+	limitPieces(type,color) == 
+	(
+		dcl pieces : nat := 0;
+		dcl index : nat := getIndex(type);
+		
+		for all cell in set rng board do 
+			(if cell.getPiece() <> nil 
+				then 
+					(if (cell.getPiece().getType() = type and cell.getPiece().getColor() = color) 
+						then pieces := pieces + 1));
+		
+		return pieces < Combate`PIECES_PER_PLAYER(index);
+	);
+	
+	--Checks if given move is possible given origin,destination and range
+	public pure movePossible : Position*Position*bool ==> bool
+	movePossible(origin,destination,range) == 
+	(
+		if range
+			then return isFreeLane(origin,destination)
+			else if origin.x = destination.x
+				then return abs(origin.y - destination.y) = 1
+				else return abs(origin.x - destination.x) = 1;
+	) 
+	pre origin.x = destination.x or origin.y =destination.y;
+	
+	--Checks if lane is free
+	public pure isFreeLane : Position*Position ==> bool
+	isFreeLane(origin,destination) == 
+	(
+		if origin.x = destination.x 
+			then
+				for i = origin.y to destination.y by (if origin.y >= destination.y then -1 else 1) do
+					(if (i <> destination.y and i <> origin.y) then if board(mk_Position(destination.x,i)).isOccupied() then return false;)
+			else 
+				for i = origin.x to destination.x by (if origin.x >= destination.x then -1 else 1) do
+					(if (i <> destination.x and i <> origin.x) then if board(mk_Position(i,destination.y)).isOccupied() then return false;);
+					
+			return true;
+	);
+  
+  functions
+	--get index of type of piece
+	public getIndex : Piece`PType -> nat
+	getIndex(type) ==
+	(
+		[i | i in set inds Combate`TYPES_OF_PIECES & Combate`TYPES_OF_PIECES(i) = type](1)
+	);
+	
+	public strongerPiece : Piece`PType*Piece`PType -> bool
+	strongerPiece(originType,destinationType) == (
+		 getIndex(originType) > getIndex(destinationType)
+	);
+	
+	public colorRegion : Position*Piece`PColor -> bool
+	colorRegion(position, color) ==
+		if color = <BLUE> then position.y < 4 else position.y > 5;
 
---public top: () ==> int
---top() == return hd contents
---pre contents <> []
---post RESULT = hd contents;
-
+	
+traces
 end Board
