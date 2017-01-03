@@ -8,9 +8,15 @@ instance variables
   private totalPieces : nat := TOTAL_PIECES;
   private unplayedPieces : nat := TOTAL_PIECES;
   
+<<<<<<< HEAD
 	private pieces : seq of Piece := [];
 	
 	inv len pieces <= TOTAL_PIECES;
+=======
+	private pieces : set of Piece := {};
+	
+	inv card pieces <= TOTAL_PIECES;
+>>>>>>> d04c4861d7f32f4bbdecdba8d75066736c5d4379
   
   inv player = 0 or player = 1;
 operations
@@ -21,6 +27,30 @@ operations
 			)
 			pre pl = 0 or pl = 1;
 			
+<<<<<<< HEAD
+=======
+			public addPiece : Piece ==> ()
+			addPiece(p) ==
+			(
+			pieces := {p}union pieces;
+			)
+			pre card pieces <= TOTAL_PIECES -- acho q a invariant definida em cima já impede isto tudo portanto depois elimino
+ 			post card pieces <=TOTAL_PIECES;
+ 			
+ 			public getPieces : () ==> set of Piece
+ 			getPieces() ==
+ 			(
+ 			return pieces;
+ 			);
+ 			
+ 			public eliminatePiece : Piece ==> ()
+ 			eliminatePiece(p) == 
+ 			(
+ 				pieces := pieces \ {p};
+ 			);
+ 			
+			
+>>>>>>> d04c4861d7f32f4bbdecdba8d75066736c5d4379
 functions
 traces
 end Player

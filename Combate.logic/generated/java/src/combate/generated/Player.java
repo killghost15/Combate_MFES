@@ -9,7 +9,8 @@ public class Player {
   private Number player = 0L;
   private Number totalPieces = Player.TOTAL_PIECES;
   private Number unplayedPieces = Player.TOTAL_PIECES;
-  private VDMSeq pieces = SeqUtil.seq();
+
+  private VDMSet pieces = SetUtil.set();
 
   public void cg_init_Player_1(final Number pl) {
 
@@ -19,6 +20,22 @@ public class Player {
   public Player(final Number pl) {
 
     cg_init_Player_1(pl);
+  }
+
+
+  public void addPiece(final Piece p) {
+
+    pieces = SetUtil.union(SetUtil.set(p), Utils.copy(pieces));
+  }
+
+  public VDMSet getPieces() {
+
+    return Utils.copy(pieces);
+  }
+
+  public void eliminatePiece(final Piece p) {
+
+    pieces = SetUtil.diff(Utils.copy(pieces), SetUtil.set(p));
   }
 
   public Player() {}
