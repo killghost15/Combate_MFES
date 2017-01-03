@@ -2,19 +2,14 @@ class Piece
 types
   	public PType = <BOMB> | <MARSHALL> | <GENERAL> | <COLONEL> | <MAJOR> | <CAPTAIN> | <LIEUTENANT> | <SERGEANT> | <MINER> | <SCOUT> | <SPY> | <FLAG>;
 		public PColor = <RED> | <BLUE>;
-<<<<<<< HEAD
-=======
+
 		public Position:: x:int y:int;
->>>>>>> d04c4861d7f32f4bbdecdba8d75066736c5d4379
 values
 instance variables
 		private PieceType : PType;
 		private PieceColor : PColor;
-<<<<<<< HEAD
 		
-=======
 		private position : Position;
->>>>>>> d04c4861d7f32f4bbdecdba8d75066736c5d4379
 		private onBoard : bool := false;
 		private cannotMove : bool;
 		private unlimitedRange : bool;
@@ -24,11 +19,8 @@ operations
   		(
   			PieceType := type;
   			PieceColor := color;
-<<<<<<< HEAD
   			
-=======
   			position := mk_Position(-1,-1);
->>>>>>> d04c4861d7f32f4bbdecdba8d75066736c5d4379
   			cannotMove := PieceType = <BOMB> or PieceType = <FLAG>;
   			unlimitedRange := PieceType = <SCOUT>;
   			
