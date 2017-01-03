@@ -2,6 +2,8 @@ package gui;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+
 import javax.swing.*;
 import javax.swing.border.*;
 
@@ -36,7 +38,6 @@ public class BoardCR {
         tools.addSeparator();
         tools.add(message);
 
-        new JPanel(new GridLayout(0,10));
                 
         piecesBoardPanel = new JPanel(new GridLayout(0,10));
         
@@ -58,6 +59,8 @@ public class BoardCR {
             }
         }
         
+        ArrayList<ImageIcon> images = fillIconArray();
+        addCharacters(boardPieces, images);
         for (int ii = 0; ii < boardPieces.length; ii++) {
             for (int jj = 0; jj < boardPieces[ii].length; jj++) {
             	piecesBoardPanel.add(boardPieces[ii][jj]);
@@ -121,6 +124,71 @@ public class BoardCR {
         return gui;
     }
 
+    private void addCharacters(JButton[][] pieces, ArrayList<ImageIcon> images) {
+    	
+		for(int i = 0; i < pieces.length; i++){
+			for(int j = 0; j < pieces[i].length; j++){
+				pieces[i][j].setIcon(images.get(j));
+			}
+		}
+	}
+    
+    public ArrayList<ImageIcon> fillIconArray(){
+		ArrayList<ImageIcon> images = new ArrayList<ImageIcon>();
+		ImageIcon flag = new ImageIcon("resources\\flag.png");
+		images.add(flag);
+		ImageIcon bomb = new ImageIcon("resources\\bomb.png");
+		images.add(bomb);
+		images.add(bomb);
+		images.add(bomb);
+		images.add(bomb);
+		images.add(bomb);
+		images.add(bomb);
+		ImageIcon spy = new ImageIcon("resources\\spy.png");
+		images.add(spy);
+		ImageIcon scout = new ImageIcon("resources\\scout.png");
+		images.add(scout);
+		images.add(scout);
+		images.add(scout);
+		images.add(scout);
+		images.add(scout);
+		images.add(scout);
+		images.add(scout);
+		images.add(scout);
+		ImageIcon miner = new ImageIcon("resources\\miner.png");
+		images.add(miner);
+		images.add(miner);
+		images.add(miner);
+		images.add(miner);
+		images.add(miner);
+		ImageIcon sergeant = new ImageIcon("resources\\sergeant.png");
+		images.add(sergeant);
+		images.add(sergeant);
+		images.add(sergeant);
+		images.add(sergeant);
+		ImageIcon liutenant = new ImageIcon("resources\\lieutenant.png");
+		images.add(liutenant);
+		images.add(liutenant);
+		images.add(liutenant);
+		images.add(liutenant);
+		ImageIcon captain = new ImageIcon("resources\\captain.png");
+		images.add(captain);
+		images.add(captain);
+		images.add(captain);
+		images.add(captain);
+		ImageIcon major = new ImageIcon("resources\\major.png");
+		images.add(major);
+		images.add(major);
+		images.add(major);
+		ImageIcon colonel = new ImageIcon("resources\\colonel.png");
+		images.add(colonel);
+		images.add(colonel);
+		ImageIcon general = new ImageIcon("resources\\general.png");
+		images.add(general);
+		ImageIcon marshall = new ImageIcon("resources\\marshall.png");
+		images.add(marshall);
+		return images;
+	}
    
     
 }

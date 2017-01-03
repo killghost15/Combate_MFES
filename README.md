@@ -2,5 +2,4 @@ Façam clone e abram a pasta como workspace no overture Para gerar o codigo -bot
 
 -botao direito -code generation -> generate java -importar a pasta "java" (que esta em generated na pasta do projeto no workspace do overture) para o eclipse
 
-ATENCAO!!!!
-Se derem generate outra vez no overture APAGAM TUDO O QUE ESTA DENTRO DA PASTA JAVA!
+ATENCAO!!!! Se derem generate outra vez no overture APAGAM TUDO O QUE ESTA DENTRO DA PASTA JAVA!
