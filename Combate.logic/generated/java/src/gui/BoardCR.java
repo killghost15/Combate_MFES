@@ -1,14 +1,16 @@
 package gui; 
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import javax.swing.*;
 import javax.swing.border.*;
 
-public class BoardCR {
-
+public class BoardCR implements ActionListener{
+	private JButton changeable = null;
     private final JPanel gui = new JPanel(new BorderLayout(3, 3));
     private JButton[][] boardSquares = new JButton[10][10];
     private JButton[][] boardPieces = new JButton[2][40];
@@ -47,6 +49,7 @@ public class BoardCR {
             for (int jj = 0; jj < boardPieces[ii].length; jj++) {
                 JButton b = new JButton();
                 b.setMargin(buttonMargin);
+                b.addActionListener(this);
                 // our chess pieces are 64x64 px in size, so we'll
                 // 'fill this in' using a transparent icon..
                 ImageIcon icon = new ImageIcon(
@@ -78,6 +81,7 @@ public class BoardCR {
         for (int ii = 0; ii < boardSquares.length; ii++) {
             for (int jj = 0; jj < boardSquares[ii].length; jj++) {
                 JButton b = new JButton();
+                b.addActionListener(this);
                 b.setMargin(buttonMargin);
                 // our chess pieces are 64x64 px in size, so we'll
                 // 'fill this in' using a transparent icon..
@@ -188,6 +192,19 @@ public class BoardCR {
 		ImageIcon marshall = new ImageIcon("resources\\marshall.png");
 		images.add(marshall);
 		return images;
+	}
+
+    @Override
+	public void actionPerformed(ActionEvent arg0) {
+		if(changeable == null){
+			changeable = (JButton) arg0.getSource();
+		}
+		else {
+			ImageIcon i = (ImageIcon) changeable.getIcon();
+			((JButton)arg0.getSource()).setIcon(i);
+			changeable.setIcon(null);
+			changeable = null;
+		}
 	}
    
     
