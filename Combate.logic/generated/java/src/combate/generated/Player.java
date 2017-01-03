@@ -21,6 +21,16 @@ public class Player {
     cg_init_Player_1(pl);
   }
 
+  public void addPiece(final Piece p) {
+
+    pieces = SeqUtil.conc(SeqUtil.seq(p), Utils.copy(pieces));
+  }
+
+  public VDMSeq getPieces() {
+
+    return Utils.copy(pieces);
+  }
+
   public Player() {}
 
   public String toString() {
