@@ -23,6 +23,7 @@ public class Cell {
 
   public void setPiece(final Piece pie) {
 
+    pie.setPosition(position.x, position.y);
     Piece atomicTmp_1 = pie;
     Boolean atomicTmp_2 = true;
     {
@@ -43,17 +44,22 @@ public class Cell {
     } /* End of atomic statement */
   }
 
+  public Position getPosition() {
+
+    return Utils.copy(position);
+  }
+
   public Boolean isOccupied() {
 
-    Boolean orResult_4 = false;
+    Boolean orResult_2 = false;
 
     if (occupied) {
-      orResult_4 = true;
+      orResult_2 = true;
     } else {
-      orResult_4 = water;
+      orResult_2 = water;
     }
 
-    return orResult_4;
+    return orResult_2;
   }
 
   public Piece getPiece() {
@@ -63,47 +69,47 @@ public class Cell {
 
   public Boolean isWater(final Position pos) {
 
-    Boolean andResult_18 = false;
+    Boolean andResult_17 = false;
 
-    Boolean orResult_5 = false;
+    Boolean orResult_3 = false;
 
     if (Utils.equals(pos.x, 2L)) {
-      orResult_5 = true;
+      orResult_3 = true;
     } else {
-      Boolean orResult_6 = false;
+      Boolean orResult_4 = false;
 
       if (Utils.equals(pos.x, 3L)) {
-        orResult_6 = true;
+        orResult_4 = true;
       } else {
-        Boolean orResult_7 = false;
+        Boolean orResult_5 = false;
 
         if (Utils.equals(pos.x, 6L)) {
-          orResult_7 = true;
+          orResult_5 = true;
         } else {
-          orResult_7 = Utils.equals(pos.x, 7L);
+          orResult_5 = Utils.equals(pos.x, 7L);
         }
 
-        orResult_6 = orResult_7;
+        orResult_4 = orResult_5;
       }
 
-      orResult_5 = orResult_6;
+      orResult_3 = orResult_4;
     }
 
-    if (orResult_5) {
-      Boolean orResult_8 = false;
+    if (orResult_3) {
+      Boolean orResult_6 = false;
 
       if (Utils.equals(pos.y, 4L)) {
-        orResult_8 = true;
+        orResult_6 = true;
       } else {
-        orResult_8 = Utils.equals(pos.y, 5L);
+        orResult_6 = Utils.equals(pos.y, 5L);
       }
 
-      if (orResult_8) {
-        andResult_18 = true;
+      if (orResult_6) {
+        andResult_17 = true;
       }
     }
 
-    return andResult_18;
+    return andResult_17;
   }
 
   public Boolean getWater() {
