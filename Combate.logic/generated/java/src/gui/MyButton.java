@@ -1,5 +1,6 @@
 package gui;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 import combate.generated.Cell;

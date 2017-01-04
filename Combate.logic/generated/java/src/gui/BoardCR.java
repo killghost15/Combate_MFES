@@ -9,11 +9,15 @@ import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.border.*;
 
+import combate.generated.Piece;
+import combate.generated.Cell;
+
 public class BoardCR implements ActionListener{
 	private MyButton changeable = null;
     private final JPanel gui = new JPanel(new BorderLayout(3, 3));
     private MyButton[][] boardSquares = new MyButton[10][10];
-
+    private ArrayList<ImageIcon> icons = fillIconArray();
+    
     private JPanel combateBoard;
     private final JLabel message = new JLabel(
             "Combate!");
@@ -71,7 +75,14 @@ public class BoardCR implements ActionListener{
         }
         
         mapBoard();
-
+        setInitialPieces();
+        
+        for(int ii=0; ii<10; ii++){
+        	for(int jj=0; jj<10; jj++){
+        		iconInterpreter(boardSquares[jj][ii]);
+        	}
+        }
+        
         //fill the chess board
         combateBoard.add(new JLabel(""));
         // fill the top row
@@ -102,6 +113,84 @@ public class BoardCR implements ActionListener{
         	}
     	}
     }
+    
+    public void setInitialPieces(){
+    	Piece p = new Piece();
+    	Piece p1 = new Piece("null","null");
+    
+
+    	for(int ii=0; ii<10; ii++){
+        	for(int jj=0; jj<10; jj++){
+        		if(ii<4){
+        			//System.out.println(game.cpPieces.size());
+        		p = game.cpPieces.get(ii*10+jj);
+        		boardSquares[jj][ii].getCell().setPiece(p);
+        		}
+        		if(ii>5){
+            	p = game.playerPieces.get((ii-6)*10+jj);
+        		boardSquares[jj][ii].getCell().setPiece(p);
+        		}
+        		if(ii == 4 || ii == 5)
+            		boardSquares[jj][ii].getCell().setPiece(p1);
+
+        			
+        	}
+    	}
+    }
+    
+    public void display(){
+    	for(int ii=0; ii<10; ii++){
+        	for(int jj=0; jj<10; jj++){
+        		
+        		//boardSquares[jj][ii].
+        	}
+        }
+    }
+    
+    public void iconInterpreter(MyButton b){
+    	
+    	String type = b.getCell().getPiece().getType().toString();
+    	
+		ImageIcon flag = new ImageIcon("resources\\flag.png");
+		ImageIcon bomb = new ImageIcon("resources\\bomb.png");
+		ImageIcon spy = new ImageIcon("resources\\spy.png");
+		ImageIcon scout = new ImageIcon("resources\\scout.png");
+		ImageIcon miner = new ImageIcon("resources\\miner.png");
+		ImageIcon sergeant = new ImageIcon("resources\\sergeant.png");
+		ImageIcon liutenant = new ImageIcon("resources\\lieutenant.png");
+		ImageIcon captain = new ImageIcon("resources\\captain.png");
+		ImageIcon major = new ImageIcon("resources\\major.png");
+		ImageIcon colonel = new ImageIcon("resources\\colonel.png");
+		ImageIcon general = new ImageIcon("resources\\general.png");
+		ImageIcon marshall = new ImageIcon("resources\\marshall.png");
+    	
+    	if(type == "<FLAG>")
+    		b.setIcon(flag);
+    	if(type == "<BOMB>")
+    		b.setIcon(bomb);
+    	if(type == "<SPY>")
+    		b.setIcon(spy);
+    	if(type == "<SCOUT>")
+    		b.setIcon(scout);
+    	if(type == "<MINER>")
+    		b.setIcon(miner);
+    	if(type == "<SERGEANT>")
+    		b.setIcon(sergeant);
+    	if(type == "<LIEUTENANT>")
+    		b.setIcon(liutenant);
+    	if(type == "<CAPTAIN>")
+    		b.setIcon(captain);
+    	if(type == "<MAJOR>")
+    		b.setIcon(major);
+    	if(type == "<COLONEL>")
+    		b.setIcon(colonel);
+    	if(type == "<GENERAL>")
+    		b.setIcon(general);
+    	if(type == "<MARSHALL>")
+    		b.setIcon(marshall);
+    }
+    
+    
 
     public final JComponent getcombateBoard() {
         return combateBoard;
@@ -111,14 +200,6 @@ public class BoardCR implements ActionListener{
         return gui;
     }
 
-    private void addCharacters(JButton[][] pieces, ArrayList<ImageIcon> images) {
-    	
-		for(int i = 0; i < pieces.length; i++){
-			for(int j = 0; j < pieces[i].length; j++){
-				pieces[i][j].setIcon(images.get(j));
-			}
-		}
-	}
     
     public ArrayList<ImageIcon> fillIconArray(){
 		ArrayList<ImageIcon> images = new ArrayList<ImageIcon>();
@@ -126,49 +207,21 @@ public class BoardCR implements ActionListener{
 		images.add(flag);
 		ImageIcon bomb = new ImageIcon("resources\\bomb.png");
 		images.add(bomb);
-		images.add(bomb);
-		images.add(bomb);
-		images.add(bomb);
-		images.add(bomb);
-		images.add(bomb);
 		ImageIcon spy = new ImageIcon("resources\\spy.png");
 		images.add(spy);
 		ImageIcon scout = new ImageIcon("resources\\scout.png");
 		images.add(scout);
-		images.add(scout);
-		images.add(scout);
-		images.add(scout);
-		images.add(scout);
-		images.add(scout);
-		images.add(scout);
-		images.add(scout);
 		ImageIcon miner = new ImageIcon("resources\\miner.png");
-		images.add(miner);
-		images.add(miner);
-		images.add(miner);
-		images.add(miner);
 		images.add(miner);
 		ImageIcon sergeant = new ImageIcon("resources\\sergeant.png");
 		images.add(sergeant);
-		images.add(sergeant);
-		images.add(sergeant);
-		images.add(sergeant);
 		ImageIcon liutenant = new ImageIcon("resources\\lieutenant.png");
-		images.add(liutenant);
-		images.add(liutenant);
-		images.add(liutenant);
 		images.add(liutenant);
 		ImageIcon captain = new ImageIcon("resources\\captain.png");
 		images.add(captain);
-		images.add(captain);
-		images.add(captain);
-		images.add(captain);
 		ImageIcon major = new ImageIcon("resources\\major.png");
 		images.add(major);
-		images.add(major);
-		images.add(major);
 		ImageIcon colonel = new ImageIcon("resources\\colonel.png");
-		images.add(colonel);
 		images.add(colonel);
 		ImageIcon general = new ImageIcon("resources\\general.png");
 		images.add(general);
@@ -179,17 +232,21 @@ public class BoardCR implements ActionListener{
 
     @Override
 	public void actionPerformed(ActionEvent arg0) {
-		/*if(changeable == null){
+		if(changeable == null){
 			changeable = (MyButton) arg0.getSource();
 		}
 		else {
 			ImageIcon i = (ImageIcon) changeable.getIcon();
-			((JButton)arg0.getSource()).setIcon(i);
-			changeable.setIcon(null);
-			changeable = null;*/
-    	changeable = (MyButton) arg0.getSource();
-    	System.out.println(changeable.getCell());
-		
+			Cell c1 = changeable.getCell();
+			Cell p2 = ((MyButton) arg0.getSource()).getCell();
+			//if(game.board.makeMove(c1., destination, color))
+			changeable = null;
+    	
+    	//changeable = (MyButton) arg0.getSource();
+    	//System.out.println(changeable.getCell());
+    	//System.out.println(changeable.getCell().getPiece().getType());
+		}
+
 	}
    
     
