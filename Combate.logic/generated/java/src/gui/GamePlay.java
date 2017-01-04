@@ -243,11 +243,5 @@ public class GamePlay {
 	playerPieces.add(generalPlayer);
 	playerPieces.add(marshallPlayer);
 
-
-
-
-
-
-	
 	}
 }

@@ -217,8 +217,10 @@ public class Board {
     }
 
     return true;
+
   }
 
+  
   public Cell getByCoord(final Number i, final Number j) {
 
     return ((Cell) Utils.get(board, new Position(i, j)));
