@@ -97,8 +97,8 @@ public class BoardCR implements ActionListener{
     public void mapBoard(){
     	for(int ii=0; ii<10; ii++){
         	for(int jj=0; jj<10; jj++){
-        		boardSquares[ii][jj].setCell(game.board.getByCoord(ii, jj));
-        		System.out.println(boardSquares[ii][jj].getCell());
+        		boardSquares[jj][ii].setCell(game.board.getByCoord(ii, jj));
+        		//System.out.println(boardSquares[ii][jj].getCell());
         	}
     	}
     }
