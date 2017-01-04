@@ -138,7 +138,7 @@ public class BoardCR implements ActionListener{
         		boardSquares[jj][ii].getCell().setPiece(p);
         		}
         		if(ii == 4 || ii == 5)
-            		boardSquares[jj][ii].getCell().setPiece(p1);
+        			boardSquares[jj][ii].getCell().setPiece(p1);
 
         			
         	}
@@ -233,13 +233,21 @@ public class BoardCR implements ActionListener{
 			Piece nowPiece = nowButton.getCell().getPiece();
 			Piece prePiece = preButton.getCell().getPiece();
 			
-			if(nowButton.getCell().getPiece().getColor() == preButton.getCell().getPiece().getColor())
+						
+			if(nowButton.getCell().getPiece().getColor() == preButton.getCell()
+					.getPiece().getColor())
 				return;
 			
-			/*if(!game.board.movePossible(new Position(preCell.getPosition().x, preCell.getPosition().y), 
-					new Position(nowCell.getPosition().x, nowCell.getPosition().y), preCell.getPiece().hasUnlimitedRange()))
+			/*System.out.println(preCell.getPosition().x);
+			System.out.println(preCell.getPosition().y);
+			System.out.println(nowCell.getPosition().x);
+			System.out.println(nowCell.getPosition().y);
+			System.out.println(preCell.getPiece().hasUnlimitedRange());
+			System.out.println(game.board.getByCoord(1, 1));*/
+			if(!game.board.makeMove(new Position(preCell.getPosition().x, preCell.getPosition().y), 
+					new Position(nowCell.getPosition().x, nowCell.getPosition().y), preCell.getPiece().getColor()))
 						return;
-			*/
+			
 			nowCell.setPiece(prePiece);
 			nowButton.setCell(nowCell);
 			
