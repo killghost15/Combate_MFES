@@ -21,7 +21,7 @@ public class Combate {
           combate.generated.quotes.SCOUTQuote.getInstance(),
           combate.generated.quotes.SPYQuote.getInstance(),
           combate.generated.quotes.FLAGQuote.getInstance());
-  private Board board;
+  public Board board;
   private Number turn = 0L;
 
   public void cg_init_Combate_1() {

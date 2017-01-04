@@ -26,6 +26,7 @@ public class GamePlay {
 	public Board board;
 	public ArrayList<Piece> cpPieces, playerPieces;
 	public Player cp, player;
+	public Combate c;
 	
 	public Piece flagCP, flagPlayer, bombCP1, bombCP2, bombCP3, bombCP4, bombCP5, bombCP6, 
 	bombPlayer1, bombPlayer2, bombPlayer3, bombPlayer4, bombPlayer5, bombPlayer6,
@@ -50,6 +51,7 @@ public class GamePlay {
 
 	
 	public GamePlay(){
+		c = new Combate();
 		board = new Board();
 		cpPieces = new ArrayList<Piece>();
 		playerPieces = new ArrayList<Piece>();

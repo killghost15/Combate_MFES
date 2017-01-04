@@ -16,7 +16,7 @@ public class Piece {
 
     PieceType = type;
     PieceColor = color;
-    position = new Position(-1L, -1L);
+   // position = new Position(-1L, -1L);
     Boolean orResult_8 = false;
 
     if (Utils.equals(PieceType, combate.generated.quotes.BOMBQuote.getInstance())) {
