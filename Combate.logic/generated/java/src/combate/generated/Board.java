@@ -241,8 +241,15 @@ public class Board {
 
   public static Boolean strongerPiece(final Object originType, final Object destinationType) {
 
-    return getIndex(((Object) originType)).longValue()
-        > getIndex(((Object) destinationType)).longValue();
+	  System.out.println(originType);
+	  System.out.println(destinationType);
+	  if(originType.toString()=="null")
+		  return false;
+	  if(destinationType.toString()=="null")
+		  return true;
+	  
+	 
+    return getIndex(((Object) originType)).longValue() > getIndex(((Object) destinationType)).longValue();
   }
 
   public static Boolean colorRegion(final Position position, final Object color) {
