@@ -10,13 +10,11 @@ import javax.swing.*;
 import javax.swing.border.*;
 
 public class BoardCR implements ActionListener{
-	private JButton changeable = null;
+	private MyButton changeable = null;
     private final JPanel gui = new JPanel(new BorderLayout(3, 3));
-    private JButton[][] boardSquares = new JButton[10][10];
-    private JButton[][] boardPieces = new JButton[2][40];
+    private MyButton[][] boardSquares = new MyButton[10][10];
 
     private JPanel combateBoard;
-    private JPanel piecesBoardPanel;
     private final JLabel message = new JLabel(
             "Combate!");
     private static final String COLS = "ABCDEFGHIJ";
@@ -42,46 +40,19 @@ public class BoardCR implements ActionListener{
         tools.add(message);
 
                 
-        piecesBoardPanel = new JPanel(new GridLayout(0,10));
         
         
         Insets buttonMargin = new Insets(0, 0, 0, 0);
-        for (int ii = 0; ii < boardPieces.length; ii++) {
-            for (int jj = 0; jj < boardPieces[ii].length; jj++) {
-                JButton b = new JButton();
-                b.setMargin(buttonMargin);
-                b.addActionListener(this);
-                // our chess pieces are 64x64 px in size, so we'll
-                // 'fill this in' using a transparent icon..
-                ImageIcon icon = new ImageIcon(
-                        new BufferedImage(64, 64, BufferedImage.TYPE_INT_ARGB));
-                b.setIcon(icon);
-                if(ii==0)
-                	b.setBackground(Color.BLUE);
-                else b.setBackground(Color.RED);
-                boardPieces[ii][jj] = b;
-            }
-        }
-        
-        ArrayList<ImageIcon> images = fillIconArray();
-        addCharacters(boardPieces, images);
-        for (int ii = 0; ii < boardPieces.length; ii++) {
-            for (int jj = 0; jj < boardPieces[ii].length; jj++) {
-            	piecesBoardPanel.add(boardPieces[ii][jj]);
-            }
-        }     
-        
-        
-        
+       
         combateBoard = new JPanel(new GridLayout(0, 11));
         combateBoard.setBorder(new LineBorder(Color.BLACK));
         gui.add(combateBoard, BorderLayout.LINE_START);
-        gui.add(piecesBoardPanel);
+        //gui.add(piecesBoardPanel);
 
         // create the board squares
         for (int ii = 0; ii < boardSquares.length; ii++) {
             for (int jj = 0; jj < boardSquares[ii].length; jj++) {
-                JButton b = new JButton();
+            	MyButton b = new MyButton();
                 b.addActionListener(this);
                 b.setMargin(buttonMargin);
                 // our chess pieces are 64x64 px in size, so we'll
@@ -98,6 +69,8 @@ public class BoardCR implements ActionListener{
                 boardSquares[jj][ii] = b;
             }
         }
+        
+        mapBoard();
 
         //fill the chess board
         combateBoard.add(new JLabel(""));
@@ -119,6 +92,15 @@ public class BoardCR implements ActionListener{
                 }
             }
         }
+    }
+    
+    public void mapBoard(){
+    	for(int ii=0; ii<10; ii++){
+        	for(int jj=0; jj<10; jj++){
+        		boardSquares[ii][jj].setCell(game.board.getByCoord(ii, jj));
+        		System.out.println(boardSquares[ii][jj].getCell());
+        	}
+    	}
     }
 
     public final JComponent getcombateBoard() {
@@ -197,15 +179,17 @@ public class BoardCR implements ActionListener{
 
     @Override
 	public void actionPerformed(ActionEvent arg0) {
-		if(changeable == null){
-			changeable = (JButton) arg0.getSource();
+		/*if(changeable == null){
+			changeable = (MyButton) arg0.getSource();
 		}
 		else {
 			ImageIcon i = (ImageIcon) changeable.getIcon();
 			((JButton)arg0.getSource()).setIcon(i);
 			changeable.setIcon(null);
-			changeable = null;
-		}
+			changeable = null;*/
+    	changeable = (MyButton) arg0.getSource();
+    	System.out.println(changeable.getCell());
+		
 	}
    
     
