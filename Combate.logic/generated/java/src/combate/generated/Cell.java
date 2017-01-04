@@ -23,7 +23,6 @@ public class Cell {
 
   public void setPiece(final Piece pie) {
 
-    pie.setPosition(position.x, position.y);
     Piece atomicTmp_1 = pie;
     Boolean atomicTmp_2 = true;
     {
