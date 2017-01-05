@@ -55,8 +55,8 @@ public class GamePlay {
 		board = new Board();
 		cpPieces = new ArrayList<Piece>();
 		playerPieces = new ArrayList<Piece>();
-		cp = new Player();
-		player = new Player();
+		cp = new Player(0,new BLUEQuote());
+		player = new Player(1,new REDQuote());
 		initializePieces();
 
 

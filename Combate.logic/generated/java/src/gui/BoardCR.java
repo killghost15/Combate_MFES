@@ -30,6 +30,7 @@ import javafx.scene.layout.Background;
 import combate.generated.Board;
 import combate.generated.Board.Position;
 import combate.generated.Cell;
+import combate.generated.Player;
 
 public class BoardCR implements ActionListener{
 	private boolean gamestate= false;
@@ -42,6 +43,8 @@ public class BoardCR implements ActionListener{
             "Combate!");
     private static final String COLS = "ABCDEFGHIJ";
     private GamePlay  game = new GamePlay();
+    private Player activePlayer = game.player;
+    private int playscount=0;
     
 
     public BoardCR() {
@@ -347,6 +350,12 @@ public class BoardCR implements ActionListener{
     	
     	
         }
+    public void nextTurn(){
+    	if (activePlayer==game.cp)
+    	activePlayer=game.player;
+    	else
+    		activePlayer=game.cp;
+    }
     
     
     public boolean makeMove(MyButton b1, MyButton b2){
@@ -390,8 +399,9 @@ public class BoardCR implements ActionListener{
 			b1.getCell().setPiece(p);
 			iconInterpreter(b1);
 			iconInterpreter(b2);
-
+			
 			System.out.println("FREE");
+			return true;
     	}
     	else{
     		if(getInteraction(c1.getPiece(), c2.getPiece()) == 1){
@@ -476,7 +486,13 @@ public class BoardCR implements ActionListener{
 				
 			
 			 
-			makeMove(changeable, (MyButton) arg0.getSource());
+			System.out.println(preButton.getBackground());
+			if ((preButton.getBackground().getRGB()==Color.cyan.getRGB() && activePlayer.getColor().toString()=="<BLUE>")||(preButton.getBackground().getRGB()==Color.red.getRGB() && activePlayer.getColor().toString()=="<RED>") )
+				if(makeMove(changeable, (MyButton) arg0.getSource()))
+					nextTurn();
+				
+			
+			
 			if(gamestate)
 				System.out.println("GANHOUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU");
 			
