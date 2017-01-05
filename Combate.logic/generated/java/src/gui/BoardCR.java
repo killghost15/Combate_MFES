@@ -137,8 +137,12 @@ public class BoardCR implements ActionListener{
             	p = game.playerPieces.get((ii-6)*10+jj);
         		boardSquares[jj][ii].getCell().setPiece(p);
         		}
-        		if(ii == 4 || ii == 5)
+        		if(ii == 4 || ii == 5){
         			boardSquares[jj][ii].getCell().setPiece(p1);
+        			boardSquares[jj][ii].getCell().setOcuppied(false);
+                    if ((jj == 2 || jj == 3 || jj == 6 || jj == 7) && (ii == 4|| ii == 5))
+            			boardSquares[jj][ii].getCell().setWater(true);     			
+        		}
 
         			
         	}
@@ -146,11 +150,11 @@ public class BoardCR implements ActionListener{
     }
     
 
-    public void display(){
+    public void ingameMapping(){
     	for(int ii=0; ii<10; ii++){
         	for(int jj=0; jj<10; jj++){
-        		
-        		//boardSquares[jj][ii].
+        		Piece p = boardSquares[jj][ii].getCell().getPiece();
+        		game.board.getByCoord(jj, ii).setPiece(p);
         	}
         }
     }
@@ -260,9 +264,13 @@ public class BoardCR implements ActionListener{
 			iconInterpreter(changeable);
 			iconInterpreter((MyButton) arg0.getSource());
 
+			ingameMapping();
+			
 
 			changeable = null;			
 			
+			System.out.println(game.board.getByCoord(preCell.getPosition().x, preCell.getPosition().y));
+			System.out.println(game.board.getByCoord(nowCell.getPosition().x, nowCell.getPosition().y));
 			
 		}
 
