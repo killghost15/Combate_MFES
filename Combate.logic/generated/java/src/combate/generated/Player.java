@@ -19,6 +19,11 @@ public class Player {
     cg_init_Player_1(pl, color1);
   }
 
+  public Object getColor() {
+
+    return color;
+  }
+
   public Player() {}
 
   public String toString() {
