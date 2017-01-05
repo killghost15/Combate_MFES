@@ -315,7 +315,9 @@ public class BoardCR implements ActionListener{
     		st2=9;
     	if(p2.getType().toString() == "<MARSHALL>")
     		st2=10;
-    		
+    	if(st1==3 &&st2==11)
+    		return 1;
+    	
     	if(st2==11 && st1 != 3){
     		System.out.println("GET_INT: LOST");
     		return -1;
