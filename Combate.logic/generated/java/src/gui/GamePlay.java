@@ -52,7 +52,7 @@ public class GamePlay {
 	
 	public GamePlay(){
 		c = new Combate();
-		board = new Board();
+		//board = new Board();
 		cpPieces = new ArrayList<Piece>();
 		playerPieces = new ArrayList<Piece>();
 		cp = new Player();
