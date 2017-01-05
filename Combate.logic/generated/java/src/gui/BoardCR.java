@@ -10,14 +10,28 @@ import java.util.Collections;
 import javax.swing.*;
 import javax.swing.border.*;
 
+import org.omg.CORBA.MARSHAL;
+
 import com.sun.org.apache.xml.internal.security.c14n.helper.C14nHelper;
 
 import combate.generated.Piece;
+import combate.generated.quotes.BOMBQuote;
+import combate.generated.quotes.CAPTAINQuote;
+import combate.generated.quotes.COLONELQuote;
+import combate.generated.quotes.GENERALQuote;
+import combate.generated.quotes.LIEUTENANTQuote;
+import combate.generated.quotes.MAJORQuote;
+import combate.generated.quotes.MARSHALLQuote;
+import combate.generated.quotes.MINERQuote;
+import combate.generated.quotes.SCOUTQuote;
+import combate.generated.quotes.SERGEANTQuote;
+import combate.generated.quotes.SPYQuote;
 import combate.generated.Board;
 import combate.generated.Board.Position;
 import combate.generated.Cell;
 
 public class BoardCR implements ActionListener{
+	private boolean gamestate= false;
 	private MyButton changeable = null;
     private final JPanel gui = new JPanel(new BorderLayout(3, 3));
     private MyButton[][] boardSquares = new MyButton[10][10];
@@ -128,20 +142,25 @@ public class BoardCR implements ActionListener{
 
     	for(int ii=0; ii<10; ii++){
         	for(int jj=0; jj<10; jj++){
+        		if ((jj == 2 || jj == 3 || jj == 6 || jj == 7) && (ii == 4|| ii == 5))
+         			boardSquares[jj][ii].getCell().setWater(true);     		
         		if(ii<4){
         			//System.out.println(game.cpPieces.size());
         		p = game.cpPieces.get(ii*10+jj);
         		boardSquares[jj][ii].getCell().setPiece(p);
+     			boardSquares[jj][ii].getCell().setWater(false);     
+    			boardSquares[jj][ii].getCell().setOcuppied(true);
         		}
         		if(ii>5){
             	p = game.playerPieces.get((ii-6)*10+jj);
         		boardSquares[jj][ii].getCell().setPiece(p);
+     			boardSquares[jj][ii].getCell().setWater(false);
+    			boardSquares[jj][ii].getCell().setOcuppied(true);
+
         		}
         		if(ii == 4 || ii == 5){
         			boardSquares[jj][ii].getCell().setPiece(p1);
         			boardSquares[jj][ii].getCell().setOcuppied(false);
-                    if ((jj == 2 || jj == 3 || jj == 6 || jj == 7) && (ii == 4|| ii == 5))
-            			boardSquares[jj][ii].getCell().setWater(true);     			
         		}
 
         			
@@ -162,7 +181,15 @@ public class BoardCR implements ActionListener{
     
     public void iconInterpreter(MyButton b){
     	
+    	if(b.getCell().getPiece() == null){
+    		b.setIcon(null);
+    		return;
+    	}
+    	
+    	
     	String type = b.getCell().getPiece().getType().toString();
+    	
+    	
     	
 		ImageIcon flag = new ImageIcon("resources\\flag.png");
 		ImageIcon bomb = new ImageIcon("resources\\bomb.png");
@@ -205,54 +232,193 @@ public class BoardCR implements ActionListener{
     	if(type == "null")
     		b.setIcon(null);
     	
+    
     }
     
     public boolean isAdjacent(Cell c1, Cell c2){
     	
+    	System.out.println("IS ADJACENT?");
     	long x1 = (long) c1.getPosition().x;
     	long y1 = (long) c1.getPosition().y;
     	long x2 = (long) c2.getPosition().x;
     	long y2 = (long) c2.getPosition().y;
     	    	
     	if(x1==x2){
-    		if(y1==y2-1||y1==y2+1)
+    		if(y1==y2-1||y1==y2+1){
+    	    	System.out.println("ADJACENT!");
     			return true;
+    			}
     	}
     	if(y1==y2){
-    		if(x1==x2-1||x1==x2+1)
+    		if(x1==x2-1||x1==x2+1){
+    	    	System.out.println("ADJACENT!");
     			return true;
+    		}
     	}
+    	System.out.println("NOT ADJACENT!");
 
     	return false;
     }
     
-    public boolean getInteraction(Piece p1, Piece p2){
-  //  	if()
+    public int getInteraction(Piece p1, Piece p2){
+    	int st1 = 0,st2 = 0;
     	
-    	return false;
-    }
+    	
+    	if(p1.getType().toString() == "<BOMB>")
+    		st1=11;
+    	if(p1.getType().toString() == "<SPY>")
+    		st1=1;
+    	if(p1.getType().toString() == "<SCOUT>")
+    		st1=2;
+    	if(p1.getType().toString() == "<MINER>")
+    		st1=3;
+    	if(p1.getType().toString() == "<SERGEANT>")
+    		st1=4;
+    	if(p1.getType().toString() == "<LIEUTENANT>")
+    		st1=5;
+    	if(p1.getType().toString() == "<CAPTAIN>")
+    		st1=6;
+    	if(p1.getType().toString() == "<MAJOR>")
+    		st1=7;
+    	if(p1.getType().toString() == "<COLONEL>")
+    		st1=8;
+    	if(p1.getType().toString() == "<GENERAL>")
+    		st1=9;
+    	if(p1.getType().toString() == "<MARSHALL>")
+    		st1=10;
+    	
+    	if(p2.getType().toString() == "<BOMB>")
+    		st2=11;
+    	if(p2.getType().toString() == "<SPY>")
+    		st2=1;
+    	if(p2.getType().toString() == "<SCOUT>")
+    		st2=2;
+    	if(p2.getType().toString() == "<MINER>")
+    		st2=3;
+    	if(p2.getType().toString() == "<SERGEANT>")
+    		st2=4;
+    	if(p2.getType().toString() == "<LIEUTENANT>")
+    		st2=5;
+    	if(p2.getType().toString() == "<CAPTAIN>")
+    		st2=6;
+    	if(p2.getType().toString() == "<MAJOR>")
+    		st2=7;
+    	if(p2.getType().toString() == "<COLONEL>")
+    		st2=8;
+    	if(p2.getType().toString() == "<GENERAL>")
+    		st2=9;
+    	if(p2.getType().toString() == "<MARSHALL>")
+    		st2=10;
+    		
+    	if(st2==11 && st1 != 3){
+    		System.out.println("GET_INT: LOST");
+    		return -1;
+    	}
+    	if(st1==1 && st2 == 10){
+    		System.out.println("GET_INT: WON");
+
+    		return 1;
+    	}
+    	if(st2==1 && st1==10){
+    		System.out.println("GET_INT: LOST");
+
+    		return -1;
+    	}
+    	
+    	if(st1 == st2){
+    		System.out.println("GET_INT: DRAW");
+    		return 0;
+    	}
+    	if(st1>st2){
+    		System.out.println("GET_INT: WON");
+    		return 1;
+    	}
+    	if(st2>st1){
+    		System.out.println("GET_INT: LOST");
+    		return -1;
+    	}
+    	
+		System.out.println("GET_INT: ERROR");
+	
+   	return 2;
+    	
+    	
+        }
     
     
     public boolean makeMove(MyButton b1, MyButton b2){
     	Cell c1 = b1.getCell();
     	Cell c2 = b2.getCell();
-    	if(!isAdjacent(c1, c2) && !c1.getPiece().hasUnlimitedRange())
-    		return false;
-    	if(c1.getWater() || c2.getWater())
+    	Piece p = new Piece("null", "null");
+    
+    	if(c1.getPiece().getType().toString()=="<FLAG>" || c1.getPiece().getType().toString()=="<BOMB>")
     		return false;
     	
-    	if(!c2.isOccupied()){
-    		if(game.board.getInteraction(c1.getPiece(),c2.getPiece())){
-    			b1.getCell().setPiece(null);
-    			b2.setCell(c1);
-    			return true;
-    		}
-    		else{
-    			b1.getCell().setPiece(null);
-    			return true;
-    		}
-    				
+    	if(c2.getPiece().getType().toString()=="<FLAG>"){
+    		gamestate = true;
+    		return true;
     	}
+    	
+    	if(!c1.isOccupied())
+    		return false;
+    	
+    	if(!isAdjacent(c1, c2) && !c1.getPiece().hasUnlimitedRange()){
+			System.out.println("CANT MOVE");
+    		return false;
+    		}
+    	
+    	if(c1.getWater() || c2.getWater()){
+			System.out.println("WATER");
+    		return false;
+    	}
+    	
+    	if(!c2.isOccupied()){
+    		if(c1.getPiece().hasUnlimitedRange()){
+    			System.out.println("FREE LANE?");
+    			System.out.println(!game.board.isFreeLane(new Position(c1.getPosition().x, c1.getPosition().y), new Position(c2.getPosition().x, c2.getPosition().y)));
+    			if(!game.board.isFreeLane(new Position(c1.getPosition().x, c1.getPosition().y), new Position(c2.getPosition().x, c2.getPosition().y)))
+    				return false;
+    		}
+			b2.getCell().setPiece(c1.getPiece());
+			b1.getCell().setPiece(p);
+			iconInterpreter(b1);
+			iconInterpreter(b2);
+
+			System.out.println("FREE");
+    	}
+    	else{
+    		if(getInteraction(c1.getPiece(), c2.getPiece()) == 1){
+    			b2.getCell().setPiece(c1.getPiece());
+    			b1.getCell().setPiece(p);
+    			iconInterpreter(b1);
+    			iconInterpreter(b2);
+    			System.out.println("WON");
+
+    			return true;
+    		}
+    		if(getInteraction(c1.getPiece(), c2.getPiece()) == -1){
+    			b1.getCell().setPiece(p);
+    			iconInterpreter(b1);
+    			System.out.println("LOST");
+    			
+
+    			return true;
+    		}
+    		if(getInteraction(c1.getPiece(), c2.getPiece())==0){
+    			b1.getCell().setPiece(p);
+    			b2.getCell().setPiece(p);
+    			iconInterpreter(b1);
+    			iconInterpreter(b2);
+    			System.out.println("DRAW");
+
+    			return true;
+    		}
+    		if(getInteraction(c1.getPiece(), c2.getPiece())==2){
+    			System.out.println("ERRO");
+    			return false;
+    		} 	
+    	}
+    
     	return false;
     		
     }
@@ -272,7 +438,8 @@ public class BoardCR implements ActionListener{
 
 		if(changeable == null){
 			changeable = (MyButton) arg0.getSource();
-
+			/*if(!changeable.getCell().isOccupied())
+				changeable = null;*/
 		}
 		else{
 
@@ -282,42 +449,19 @@ public class BoardCR implements ActionListener{
 			
 			MyButton nowButton = (MyButton) arg0.getSource();
 			MyButton preButton = changeable;
-			
-			Cell nowCell = nowButton.getCell();
-			Cell preCell = preButton.getCell();
 
-			Piece nowPiece = nowButton.getCell().getPiece();
-			Piece prePiece = preButton.getCell().getPiece();
 			
 						
 			if(nowButton.getCell().getPiece().getColor() == preButton.getCell()
 					.getPiece().getColor())
 				return;
+				
 			
-			/*System.out.println(preCell.getPosition().x);
-			System.out.println(preCell.getPosition().y);
-			System.out.println(nowCell.getPosition().x);
-			System.out.println(nowCell.getPosition().y);
-			System.out.println(preCell.getPiece().hasUnlimitedRange());
-			System.out.println(game.board.getByCoord(1, 1));*/
 			 
-			/*if(!makeMove(preButton, nowButton))
-				return;
-			*/
-			System.out.println("MOVE");
-
+			makeMove(changeable, (MyButton) arg0.getSource());
+			if(gamestate)
+				System.out.println("GANHOUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU");
 			
-			nowCell.setPiece(prePiece);
-			nowButton.setCell(nowCell);
-			
-			preCell.setPiece(nowPiece);
-			preButton.setCell(preCell);
-			
-			changeable.setCell(preCell);
-			((MyButton) arg0.getSource()).setCell(nowCell);
-			
-			iconInterpreter(changeable);
-			iconInterpreter((MyButton) arg0.getSource());
 
 			ingameMapping();
 			
