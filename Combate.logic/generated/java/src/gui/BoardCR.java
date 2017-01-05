@@ -154,6 +154,7 @@ public class BoardCR implements ActionListener{
     	for(int ii=0; ii<10; ii++){
         	for(int jj=0; jj<10; jj++){
         		Piece p = boardSquares[jj][ii].getCell().getPiece();
+        		if(p == null)
         		game.board.getByCoord(jj, ii).setPiece(p);
         	}
         }
@@ -176,6 +177,7 @@ public class BoardCR implements ActionListener{
 		ImageIcon general = new ImageIcon("resources\\general.png");
 		ImageIcon marshall = new ImageIcon("resources\\marshall.png");
     	
+		
     	if(type == "<FLAG>")
     		b.setIcon(flag);
     	if(type == "<BOMB>")
@@ -203,6 +205,56 @@ public class BoardCR implements ActionListener{
     	if(type == "null")
     		b.setIcon(null);
     	
+    }
+    
+    public boolean isAdjacent(Cell c1, Cell c2){
+    	
+    	long x1 = (long) c1.getPosition().x;
+    	long y1 = (long) c1.getPosition().y;
+    	long x2 = (long) c2.getPosition().x;
+    	long y2 = (long) c2.getPosition().y;
+    	    	
+    	if(x1==x2){
+    		if(y1==y2-1||y1==y2+1)
+    			return true;
+    	}
+    	if(y1==y2){
+    		if(x1==x2-1||x1==x2+1)
+    			return true;
+    	}
+
+    	return false;
+    }
+    
+    public boolean getInteraction(Piece p1, Piece p2){
+  //  	if()
+    	
+    	return false;
+    }
+    
+    
+    public boolean makeMove(MyButton b1, MyButton b2){
+    	Cell c1 = b1.getCell();
+    	Cell c2 = b2.getCell();
+    	if(!isAdjacent(c1, c2) && !c1.getPiece().hasUnlimitedRange())
+    		return false;
+    	if(c1.getWater() || c2.getWater())
+    		return false;
+    	
+    	if(!c2.isOccupied()){
+    		if(game.board.getInteraction(c1.getPiece(),c2.getPiece())){
+    			b1.getCell().setPiece(null);
+    			b2.setCell(c1);
+    			return true;
+    		}
+    		else{
+    			b1.getCell().setPiece(null);
+    			return true;
+    		}
+    				
+    	}
+    	return false;
+    		
     }
     
     
@@ -248,9 +300,12 @@ public class BoardCR implements ActionListener{
 			System.out.println(nowCell.getPosition().y);
 			System.out.println(preCell.getPiece().hasUnlimitedRange());
 			System.out.println(game.board.getByCoord(1, 1));*/
-			if(!game.board.makeMove(new Position(preCell.getPosition().x, preCell.getPosition().y), 
-					new Position(nowCell.getPosition().x, nowCell.getPosition().y), preCell.getPiece().getColor()))
-						return;
+			 
+			/*if(!makeMove(preButton, nowButton))
+				return;
+			*/
+			System.out.println("MOVE");
+
 			
 			nowCell.setPiece(prePiece);
 			nowButton.setCell(nowCell);
@@ -269,8 +324,8 @@ public class BoardCR implements ActionListener{
 
 			changeable = null;			
 			
-			System.out.println(game.board.getByCoord(preCell.getPosition().x, preCell.getPosition().y));
-			System.out.println(game.board.getByCoord(nowCell.getPosition().x, nowCell.getPosition().y));
+		//	System.out.println(game.board.getByCoord(preCell.getPosition().x, preCell.getPosition().y).isOccupied());
+		//	System.out.println(game.board.getByCoord(nowCell.getPosition().x, nowCell.getPosition().y).isOccupied());
 			
 		}
 
