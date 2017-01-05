@@ -26,6 +26,7 @@ import combate.generated.quotes.MINERQuote;
 import combate.generated.quotes.SCOUTQuote;
 import combate.generated.quotes.SERGEANTQuote;
 import combate.generated.quotes.SPYQuote;
+import javafx.scene.layout.Background;
 import combate.generated.Board;
 import combate.generated.Board.Position;
 import combate.generated.Cell;
@@ -127,7 +128,7 @@ public class BoardCR implements ActionListener{
     public void mapBoard(){
     	for(int ii=0; ii<10; ii++){
         	for(int jj=0; jj<10; jj++){
-        		boardSquares[jj][ii].setCell(game.c.board.getByCoord(ii, jj));
+        		boardSquares[jj][ii].setCell(game.board.getByCoord(ii, jj));
         		//System.out.println(boardSquares[ii][jj].getCell());
         	}
     	}
@@ -147,12 +148,14 @@ public class BoardCR implements ActionListener{
         		if(ii<4){
         			//System.out.println(game.cpPieces.size());
         		p = game.cpPieces.get(ii*10+jj);
+        		boardSquares[jj][ii].setBackground(Color.CYAN);
         		boardSquares[jj][ii].getCell().setPiece(p);
      			boardSquares[jj][ii].getCell().setWater(false);     
     			boardSquares[jj][ii].getCell().setOcuppied(true);
         		}
         		if(ii>5){
             	p = game.playerPieces.get((ii-6)*10+jj);
+        		boardSquares[jj][ii].setBackground(Color.RED);
         		boardSquares[jj][ii].getCell().setPiece(p);
      			boardSquares[jj][ii].getCell().setWater(false);
     			boardSquares[jj][ii].getCell().setOcuppied(true);
@@ -174,7 +177,7 @@ public class BoardCR implements ActionListener{
         	for(int jj=0; jj<10; jj++){
         		Piece p = boardSquares[jj][ii].getCell().getPiece();
         		if(p == null)
-        		game.c.board.getByCoord(jj, ii).setPiece(p);
+        		game.board.getByCoord(jj, ii).setPiece(p);
         	}
         }
     }
@@ -375,10 +378,14 @@ public class BoardCR implements ActionListener{
     	if(!c2.isOccupied()){
     		if(c1.getPiece().hasUnlimitedRange()){
     			System.out.println("FREE LANE?");
-    			System.out.println(!game.c.board.isFreeLane(new Position(c1.getPosition().x, c1.getPosition().y), new Position(c2.getPosition().x, c2.getPosition().y)));
-    			if(!game.c.board.isFreeLane(new Position(c1.getPosition().x, c1.getPosition().y), new Position(c2.getPosition().x, c2.getPosition().y)))
+    			System.out.println(!game.board.isFreeLane(new Position(c1.getPosition().x, c1.getPosition().y), new Position(c2.getPosition().x, c2.getPosition().y)));
+    			if(!game.board.isFreeLane(new Position(c1.getPosition().x, c1.getPosition().y), new Position(c2.getPosition().x, c2.getPosition().y)))
     				return false;
     		}
+    		Color bk = b2.getBackground();
+			b2.setBackground(b1.getBackground());
+			b1.setBackground(bk);
+			
 			b2.getCell().setPiece(c1.getPiece());
 			b1.getCell().setPiece(p);
 			iconInterpreter(b1);
@@ -388,6 +395,10 @@ public class BoardCR implements ActionListener{
     	}
     	else{
     		if(getInteraction(c1.getPiece(), c2.getPiece()) == 1){
+    			
+    			b2.setBackground(b1.getBackground());
+    			b1.setBackground(Color.GREEN);
+    			
     			b2.getCell().setPiece(c1.getPiece());
     			b1.getCell().setPiece(p);
     			iconInterpreter(b1);
@@ -397,6 +408,9 @@ public class BoardCR implements ActionListener{
     			return true;
     		}
     		if(getInteraction(c1.getPiece(), c2.getPiece()) == -1){
+    			
+    			b1.setBackground(Color.GREEN);
+    			
     			b1.getCell().setPiece(p);
     			iconInterpreter(b1);
     			System.out.println("LOST");
@@ -405,6 +419,10 @@ public class BoardCR implements ActionListener{
     			return true;
     		}
     		if(getInteraction(c1.getPiece(), c2.getPiece())==0){
+    			
+    			b2.setBackground(Color.GREEN);
+    			b1.setBackground(Color.GREEN);
+    			
     			b1.getCell().setPiece(p);
     			b2.getCell().setPiece(p);
     			iconInterpreter(b1);
@@ -468,8 +486,8 @@ public class BoardCR implements ActionListener{
 
 			changeable = null;			
 			
-		//	System.out.println(game.c.board.getByCoord(preCell.getPosition().x, preCell.getPosition().y).isOccupied());
-		//	System.out.println(game.c.board.getByCoord(nowCell.getPosition().x, nowCell.getPosition().y).isOccupied());
+		//	System.out.println(game.board.getByCoord(preCell.getPosition().x, preCell.getPosition().y).isOccupied());
+		//	System.out.println(game.board.getByCoord(nowCell.getPosition().x, nowCell.getPosition().y).isOccupied());
 			
 		}
 
