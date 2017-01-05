@@ -32,6 +32,21 @@ public class Cell {
     } /* End of atomic statement */
   }
 
+  public void setOcuppied(final Boolean b) {
+
+    occupied = b;
+  }
+
+  public void setWater(final Boolean b) {
+
+    water = b;
+  }
+
+  public Position getPosition() {
+
+    return Utils.copy(position);
+  }
+
   public void removePiece() {
 
     Piece atomicTmp_3 = null;
@@ -41,11 +56,6 @@ public class Cell {
       piece = atomicTmp_3;
       occupied = atomicTmp_4;
     } /* End of atomic statement */
-  }
-
-  public Position getPosition() {
-
-    return Utils.copy(position);
   }
 
   public Boolean isOccupied() {
