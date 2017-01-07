@@ -1,0 +1,38 @@
+class CombateTests
+
+operations
+		public static main : () ==> ()
+				main() ==
+				(
+						new CombateTests().allTests();
+				);
+				
+		public assertTrue : bool ==> ()
+				assertTrue(arg) == return
+				pre arg;
+		
+		-- Corre todos os testes implementados
+		public allTests : () ==> ()
+				allTests() ==
+				(
+						-- Testar se pode mover Bombs
+						test_move_bombs();
+						
+						-- Testar se pode mover Captains (por exemplo)
+						-- Testar se um Scout pode mover mais que uma casa
+						-- Testar se ao mover uma peça a posição final fica ocupada e a posiçao inicial fica desocupada
+						-- Testar a alteração de turnos
+				);
+				
+		public test_move_bombs : () ==> ()
+				test_move_bombs() == 
+				(
+						dcl bomb: Piece := new Piece(<BOMB>, <BLUE>);
+						dcl cell1: Cell := new Cell(5, 4);
+						cell1.setPiece(bomb);
+						
+						assertTrue(bomb.canMove() = false);
+				)
+				
+end CombateTests
+			
