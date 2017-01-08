@@ -43,6 +43,12 @@ operations
 	pre occupied = true and piece <> nil and water = false
 	post occupied = false and piece = nil;
 	
+	public getPosition : () ==> Position
+	getPosition() == 
+	(
+	return position;
+	);
+	
 	public pure isOccupied : () ==> bool
 	isOccupied() == return occupied or water;
 	
