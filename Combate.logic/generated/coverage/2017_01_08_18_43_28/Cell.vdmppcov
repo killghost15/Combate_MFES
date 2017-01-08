@@ -1,0 +1,72 @@
+class Cell
+types
+-- TODO Define types here
+	public Position :: x:nat y:nat;
+values
+-- TODO Define values here
+instance variables
+	private position : Position;
+	private piece :  [Piece] := nil;
+	private water : bool := false;
+	private occupied : bool := false;
+-- TODO Define instance variables here
+
+	inv occupied => piece <> nil;
+	inv water => piece = nil and occupied = false;
+operations
+	public Cell : nat * nat ==> Cell
+  	Cell(x,y) ==
+  	(
+  		position := mk_Position(x,y);
+  		water := isWater(position);
+		);
+	
+	public setPiece : Piece ==> ()
+	setPiece(pie) == 
+	(
+		atomic(
+			piece := pie;
+			occupied := true;
+			)
+	)
+	pre occupied = false and piece = nil and water = false
+	post occupied = true and piece <> nil;
+	
+	public removePiece : () ==> ()
+	removePiece() == 
+	(
+		atomic(
+			piece := nil;
+			occupied := false;
+		)
+	)
+	pre occupied = true and piece <> nil and water = false
+	post occupied = false and piece = nil;
+	
+	public getPosition : () ==> Position
+	getPosition() == 
+	(
+	return position;
+	);
+	
+	public pure isOccupied : () ==> bool
+	isOccupied() == return occupied or water;
+	
+	public pure getPiece : () ==> [Piece]
+	getPiece() == return piece;
+		
+	public pure isWater : Position ==> bool
+	isWater(pos) ==
+	(
+		return (pos.x = 2 or pos.x = 3 or pos.x = 6 or pos.x = 7) and (pos.y = 4 or pos.y = 5);
+	);
+	
+	public pure getWater : () ==> bool
+	getWater() == return water;
+	
+-- TODO Define operations here
+functions
+-- TODO Define functiones here
+traces
+-- TODO Define Combinatorial Test Traces here
+end Cell

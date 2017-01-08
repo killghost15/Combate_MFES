@@ -1,0 +1,51 @@
+class Piece
+types
+  	public PType = <BOMB> | <MARSHALL> | <GENERAL> | <COLONEL> | <MAJOR> | <CAPTAIN> | <LIEUTENANT> | <SERGEANT> | <MINER> | <SCOUT> | <SPY> | <FLAG>;
+		public PColor = <RED> | <BLUE>;
+
+		public Position:: x:int y:int;
+values
+instance variables
+		private PieceType : PType;
+		private PieceColor : PColor;
+		
+		private position : Position;
+		private onBoard : bool := false;
+		private cannotMove : bool;
+		private unlimitedRange : bool;
+operations
+		public Piece : PType*PColor ==> Piece
+  		Piece(type,color) ==
+  		(
+  			PieceType := type;
+  			PieceColor := color;
+  			
+  			position := mk_Position(-1,-1);
+  			cannotMove := PieceType = <BOMB> or PieceType = <FLAG>;
+  			unlimitedRange := PieceType = <SCOUT>;
+  			
+  			self.placePiece();
+  		)
+  		pre type <> nil and color <> nil;
+  	
+  	public placePiece : () ==> ()
+  		placePiece() ==
+  		(
+  			onBoard := true;
+  		)
+  		post self.onBoard = true;
+  		
+  		public pure getType : () ==> PType
+  		getType() == return PieceType;
+  		
+  		public pure getColor : () ==> PColor
+  		getColor() == return PieceColor;
+  		
+  		public pure canMove : () ==> bool
+  		canMove() == return not cannotMove;
+  		
+  		public pure hasUnlimitedRange : () ==> bool
+  		hasUnlimitedRange() == return unlimitedRange;
+functions
+traces
+end Piece
