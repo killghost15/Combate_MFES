@@ -19,6 +19,8 @@ operations
 						test_move_bombs();
 						
 						-- Testar se pode mover Captains (por exemplo)
+						test_move_captain();
+						
 						-- Testar se um Scout pode mover mais que uma casa
 						-- Testar se ao mover uma peça a posição final fica ocupada e a posiçao inicial fica desocupada
 						-- Testar a alteração de turnos
@@ -28,11 +30,37 @@ operations
 				test_move_bombs() == 
 				(
 						dcl bomb: Piece := new Piece(<BOMB>, <BLUE>);
-						dcl cell1: Cell := new Cell(5, 4);
+						dcl cell1: Cell := new Cell(0, 3);
 						cell1.setPiece(bomb);
 						
 						assertTrue(bomb.canMove() = false);
-				)
+				);
+				
+		public test_move_captain : () ==> ()
+				test_move_captain() == 
+				(
+						dcl b : Board := new Board();
+						
+						dcl captainBlue: Piece := new Piece(<CAPTAIN>, <BLUE>);
+						dcl lieutenantBlue: Piece := new Piece(<LIEUTENANT>, <BLUE>);
+						dcl majorRed: Piece := new Piece(<MAJOR>, <RED>);
+						
+						b.getByCoords(4, 4).setPiece(captainBlue);
+						b.getByCoords(5, 4).setPiece(lieutenantBlue);
+						b.getByCoords(4, 5).setPiece(majorRed);
+						
+						-- Movimento para uma casa que possui uma peça da mesma cor
+						assertTrue(b.movePossible(b.createPosition(4, 4), b.createPosition(5, 4), b.getByCoords(4, 4).getPiece().hasUnlimitedRange()) = false);
+						
+						-- Movimento para uma casa que possui uma peça da cor adversária
+						assertTrue(b.movePossible(b.createPosition(4, 4), b.createPosition(4, 5), b.getByCoords(4, 4).getPiece().hasUnlimitedRange()));
+						
+						-- Movimento para uma casa na diagonal
+						assertTrue(b.movePossible(b.createPosition(4, 4), b.createPosition(5, 5), b.getByCoords(4, 4).getPiece().hasUnlimitedRange()) = false);
+						
+						-- Movimento para uma casa de lago
+						assertTrue(b.movePossible(b.createPosition(4, 4), b.createPosition(3, 4), b.getByCoords(4, 4).getPiece().hasUnlimitedRange()) = false);
+				);
 				
 end CombateTests
 			
