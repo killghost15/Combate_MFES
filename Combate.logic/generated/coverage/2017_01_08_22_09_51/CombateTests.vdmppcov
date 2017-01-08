@@ -21,13 +21,13 @@ operations
 						-- Testar se um tipo é mais forte que outro
 						test_strength();
 						
-						-- Testar se pode mover Captains (por exemplo)
+						-- Testar se pode mover Captains
 						test_move_captain();
 						
 						-- Testar se um Scout pode mover mais que uma casa
 						test_move_scout();
 						
-						-- Testar se pode mover Captains (por exemplo)
+						-- Testar se pode mover Miners
 						test_move_miner();
 						
 						-- Testar se um casa é lago ou não
@@ -99,14 +99,8 @@ operations
 						-- Movimento para uma casa que possui uma peça da mesma cor
 						assertTrue(b.makeMove(b.createPosition(4, 4), b.createPosition(5, 4), <BLUE>) = false);
 						
-						-- Movimento para uma casa que possui uma peça da cor adversária inferior
-						--assertTrue(b.makeMove(b.createPosition(5, 4), b.createPosition(5, 5), <BLUE>));
-						
 						-- Movimento para uma casa que possui uma peça da cor adversária igual
 						assertTrue(b.makeMove(b.createPosition(4, 4), b.createPosition(4, 5), <BLUE>));
-						
-						-- Movimento para uma casa que possui uma peça da cor adversária
-						--assertTrue(b.makeMove(b.createPosition(4, 4), b.createPosition(4, 5), <BLUE>));
 				);
 				
 		public test_move_scout : () ==> ()

@@ -14,6 +14,7 @@ instance variables
 		private cannotMove : bool;
 		private unlimitedRange : bool;
 operations
+		-- Construtor
 		public Piece : PType*PColor ==> Piece
   		Piece(type,color) ==
   		(
@@ -28,6 +29,7 @@ operations
   		)
   		pre type <> nil and color <> nil;
   	
+  	-- Função invocada no construtor que coloca a peça no tabuleiro
   	public placePiece : () ==> ()
   		placePiece() ==
   		(
@@ -35,17 +37,22 @@ operations
   		)
   		post self.onBoard = true;
   		
-  		public pure getType : () ==> PType
+  	-- Retorna o tipo da peça
+  	public pure getType : () ==> PType
   		getType() == return PieceType;
-  		
-  		public pure getColor : () ==> PColor
+  	
+  	-- Retorna a cor da peça
+  	public pure getColor : () ==> PColor
   		getColor() == return PieceColor;
-  		
-  		public pure canMove : () ==> bool
+  	
+  	-- Verdadeiro se a peça se poder mexer, false otherwise
+  	public pure canMove : () ==> bool
   		canMove() == return not cannotMove;
-  		
-  		public pure hasUnlimitedRange : () ==> bool
+  	
+  	-- Verdadeiro se a peça se poder mexer um número de casas maior que 1, false otherwise
+  	public pure hasUnlimitedRange : () ==> bool
   		hasUnlimitedRange() == return unlimitedRange;
+  		
 functions
 traces
 end Piece

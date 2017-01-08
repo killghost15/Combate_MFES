@@ -3,7 +3,7 @@ types
 		
 values
 		public PIECES_PER_PLAYER : seq of nat1 = [6,1,1,2,3,4,4,4,5,8,1,1];
-		public TYPES_OF_PIECES : seq of Piece`PType = [ <BOMB> , <MARSHALL> , <GENERAL> , <COLONEL> , <MAJOR> , <CAPTAIN> , <LIEUTENANT> , <SERGEANT> , <MINER> , <SCOUT> , <SPY> , <FLAG>];
+		public TYPES_OF_PIECES : seq of Piece`PType = [<BOMB>, <MARSHALL>, <GENERAL>, <COLONEL>, <MAJOR>, <CAPTAIN>, <LIEUTENANT>, <SERGEANT>, <MINER>, <SCOUT>, <SPY>, <FLAG>];
 instance variables
 		private board : Board;
 		private turn : nat := 0;
@@ -11,7 +11,7 @@ instance variables
 		-- Invariables
 		inv turn = 1 or turn = 0;
 operations
-
+		-- Construtor
 		public Combate : () ==> Combate
 		Combate() ==
 		(
@@ -19,19 +19,22 @@ operations
 		)
 		post self.validTurn();
 		
+		-- Retorna o turno atual
 		public pure getTurn : () ==> nat
-		getTurn() == return turn;
+			getTurn() == return turn;
 		
+		-- Efetua a mudança de turno
 		public changeTurn : () ==> ()
-		changeTurn() == 
-		(
-		if turn = 0 then turn := 1 else turn := 0;
-		)
+			changeTurn() == 
+			(
+				if turn = 0 then turn := 1 else turn := 0;
+			)
 		pre self.validTurn()
 		post self.validTurn();
 		
+		-- Verdadeiro se o turno for válido
 		public pure validTurn : () ==> bool
-		validTurn() == return turn = 0 or turn = 1;
+			validTurn() == return turn = 0 or turn = 1;
 		
 functions
 traces

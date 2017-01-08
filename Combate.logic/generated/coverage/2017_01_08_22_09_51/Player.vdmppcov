@@ -14,27 +14,29 @@ instance variables
   
   inv player = 0 or player = 1;
 operations
+		-- Cosntrutor
 		public Player : nat ==> Player
 			Player(pl) ==
 			(
 				player := pl;
 			)
 			pre pl = 0 or pl = 1;
-			
-			public addPiece : Piece ==> ()
+		
+		-- O jogador adiciona uma peça sua ao tabuleiro
+		public addPiece : Piece ==> ()
 			addPiece(p) ==
 			(
-			pieces := {p}union pieces;
+				pieces := {p}union pieces;
 			)
-			pre card pieces <= TOTAL_PIECES -- acho q a invariant definida em cima já impede isto tudo portanto depois elimino
+			pre card pieces <= TOTAL_PIECES
  			post card pieces <=TOTAL_PIECES;
- 			
- 			public eliminatePiece : Piece ==> ()
+ 		
+ 		-- O jogador elimina uma peça sua do tabuleiro
+ 		public eliminatePiece : Piece ==> ()
  			eliminatePiece(p) == 
  			(
  				pieces := pieces \ {p};
  			);
- 			
 			
 functions
 traces
