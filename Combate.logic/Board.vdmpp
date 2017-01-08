@@ -28,7 +28,11 @@ public Board : () ==> Board
 	);
 
 	
-	
+	public createPosition:nat*nat ==>Position
+	createPosition(i,j) == 
+	(
+	return mk_Position(i,j);
+	);
 	
 	--Acording to given max_coord, checks if given position is valid		
   public pure validCoords : Position ==> bool
