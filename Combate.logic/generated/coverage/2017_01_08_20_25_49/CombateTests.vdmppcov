@@ -18,17 +18,26 @@ operations
 						-- Testar se pode mover Bombs e Flags
 						test_move_bombsAndFlags();
 						
+						-- Testar se um tipo é mais forte que outro
+						test_strength();
+						
 						-- Testar se pode mover Captains (por exemplo)
 						test_move_captain();
 						
 						-- Testar se um Scout pode mover mais que uma casa
 						test_move_scout();
 						
+						-- Testar se pode mover Captains (por exemplo)
+						test_move_miner();
+						
 						-- Testar se um casa é lago ou não
 						test_water();
 						
-						-- Testar se ao mover uma peça a posição final fica ocupada e a posiçao inicial fica desocupada
+						-- Testar as funções do jogador
+						test_player();
+						
 						-- Testar a alteração de turnos
+						test_change_turns();
 				);
 				
 		public test_move_bombsAndFlags : () ==> ()
@@ -46,6 +55,25 @@ operations
 						
 						assertTrue(flag.getType() = <FLAG>);
 						assertTrue(bomb.getColor() = <BLUE>);
+				);
+				
+		public test_strength : () ==> ()
+				test_strength() == 
+				(
+						dcl b : Board := new Board();
+						
+						dcl lieutenantBlue: Piece := new Piece(<LIEUTENANT>, <BLUE>);
+						dcl captainRed: Piece := new Piece(<CAPTAIN>, <RED>);
+						
+						dcl minerBlue: Piece := new Piece(<MINER>, <BLUE>);
+						dcl bombRed: Piece := new Piece(<BOMB>, <RED>);
+						
+						dcl spyBlue: Piece := new Piece(<SPY>, <BLUE>);
+						dcl marshallRed: Piece := new Piece(<MARSHALL>, <RED>);
+						
+						assertTrue(b.getInteraction(captainRed, lieutenantBlue) = false);						
+						assertTrue(b.getInteraction(minerBlue, bombRed));
+						assertTrue(b.getInteraction(spyBlue, marshallRed));
 				);
 				
 		public test_move_captain : () ==> ()
@@ -87,16 +115,36 @@ operations
 						dcl b : Board := new Board();
 						
 						dcl scoutBlue: Piece := new Piece(<SCOUT>, <BLUE>);
-						b.getByCoords(9, 0).setPiece(scoutBlue);
+						b.getByCoords(8, 0).setPiece(scoutBlue);
 						
-						assertTrue(b.movePossible(b.createPosition(9, 0), b.createPosition(9, 3), scoutBlue.hasUnlimitedRange()));
-						assertTrue(b.movePossible(b.createPosition(9, 0), b.createPosition(6, 0), scoutBlue.hasUnlimitedRange()));
+						assertTrue(b.movePossible(b.createPosition(8, 0), b.createPosition(8, 3), scoutBlue.hasUnlimitedRange()));
+						assertTrue(b.movePossible(b.createPosition(8, 0), b.createPosition(6, 0), scoutBlue.hasUnlimitedRange()));
 						
-						b.placePiece(9, 2, <MAJOR>, <BLUE>);
+						b.placePiece(8, 2, <MAJOR>, <BLUE>);
 						b.placePiece(7, 0, <COLONEL>, <BLUE>);
 						
-						assertTrue(b.movePossible(b.createPosition(9, 0), b.createPosition(9, 3), scoutBlue.hasUnlimitedRange()) = false);
-						assertTrue(b.movePossible(b.createPosition(9, 0), b.createPosition(6, 0), scoutBlue.hasUnlimitedRange()) = false);				
+						assertTrue(b.makeMove(b.createPosition(8, 0), b.createPosition(8, 3), <BLUE>) = false);
+						assertTrue(b.movePossible(b.createPosition(8, 0), b.createPosition(6, 0), scoutBlue.hasUnlimitedRange()) = false);
+						
+						assertTrue(b.movePossible(b.createPosition(8, 0), b.createPosition(8, 0), scoutBlue.hasUnlimitedRange()));
+						assertTrue(b.movePossible(b.createPosition(8, 0), b.createPosition(9, 0), scoutBlue.hasUnlimitedRange()));
+				);
+				
+		public test_move_miner : () ==> ()
+				test_move_miner() == 
+				(
+						dcl b : Board := new Board();
+						
+						dcl minerBlue: Piece := new Piece(<MINER>, <BLUE>);
+						dcl bombRed: Piece := new Piece(<BOMB>, <RED>);
+						dcl sergeantRed: Piece := new Piece(<SERGEANT>, <RED>);
+						b.getByCoords(0, 5).setPiece(minerBlue);
+						b.getByCoords(0, 6).setPiece(bombRed);
+						b.getByCoords(1, 6).setPiece(sergeantRed);
+						
+						assertTrue(b.makeMove(b.createPosition(0, 5), b.createPosition(0, 6), <BLUE>));
+						assertTrue(b.makeMove(b.createPosition(0, 6), b.createPosition(1, 6), <BLUE>));
+						--assertTrue(b.makeMove(b.createPosition(8, 0), b.createPosition(6, 0), <BLUE>));
 				);
 				
 		public test_water : () ==> ()
@@ -108,7 +156,34 @@ operations
 						assertTrue(b.getByCoords(2, 4).getWater());
 				);
 				
+		public test_player : () ==> ()
+				test_player() == 
+				(
+						dcl player1 : Player := new Player(0);
+						dcl player2 : Player := new Player(1);
+						
+						dcl bombBlue : Piece := new Piece(<BOMB>, <BLUE>);
+						
+						player1.addPiece(bombBlue);
+						player1.eliminatePiece(bombBlue);
+						
+						--assertTrue(player2.getPieces() = nil);
+				);
 				
+		public test_change_turns : () ==> ()
+				test_change_turns() == 
+				(
+						dcl combate : Combate := new Combate();
+						
+						combate.changeTurn();
+						
+						assertTrue(combate.getTurn() = 1);
+						
+						combate.changeTurn();
+						
+						assertTrue(combate.getTurn() = 0);
+				);
+								
 				
 end CombateTests
 			

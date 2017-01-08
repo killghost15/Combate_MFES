@@ -94,6 +94,7 @@ public Board : () ==> Board
 		  					 if getInteraction(pieceOrigin,pieceDestination)
 				  				then (
 			  						board(origin).removePiece();
+			  						board(destination).removePiece();
 			  						board(destination).setPiece(pieceOrigin);
 			  						return true;
 			  					)

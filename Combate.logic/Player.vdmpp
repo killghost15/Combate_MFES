@@ -29,12 +29,6 @@ operations
 			pre card pieces <= TOTAL_PIECES -- acho q a invariant definida em cima já impede isto tudo portanto depois elimino
  			post card pieces <=TOTAL_PIECES;
  			
- 			public getPieces : () ==> set of Piece
- 			getPieces() ==
- 			(
- 			return pieces;
- 			);
- 			
  			public eliminatePiece : Piece ==> ()
  			eliminatePiece(p) == 
  			(
